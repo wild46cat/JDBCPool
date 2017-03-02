@@ -14,10 +14,20 @@ public class App {
                 String str = rs.getString(2);
                 System.out.println(str);
             }
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+        //这里也可以继续使用connection这个连接，只要上面不关闭即可
+        Connection connection1 = MysqlConnPool.getInstance().getConnection();
+        int exeCount = 0;
+        try {
+            exeCount = MysqlHelper.executeUpdate(connection1, "update user set age = 21 where id = 2");
+            connection1.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        int exeCount = MysqlHelper.executeUpdate(connection, "update user set age = 21 where id = 2");
         System.out.println("受影响的行数为：" + exeCount);
         /*ResultSet rs = null;
         PreparedStatement ps = null;
