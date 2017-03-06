@@ -5,15 +5,17 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 /**
  * Created by wuxueyou on 2017/2/23.
  */
 
 public class MysqlConnPool {
-    public static final String url = "jdbc:mysql://localhost:3306/xytest";
-    public static final String username = "root";
-    public static final String password = "123456";
+
+    public static String url = "jdbc:mysql://localhost:3306/xytest";
+    public static String username = "root";
+    public static String password = "123456";
 
     private static final MysqlConnPool instance = new MysqlConnPool();
     private static ComboPooledDataSource comboPooledDataSource;
@@ -27,6 +29,10 @@ public class MysqlConnPool {
             }
             comboPooledDataSource = new ComboPooledDataSource();
             comboPooledDataSource.setDriverClass("com.mysql.jdbc.Driver");
+            ResourceBundle rsb = ResourceBundle.getBundle("config");
+            MysqlConnPool.url = rsb.getString("mysql.url");
+            MysqlConnPool.username = rsb.getString("mysql.user");
+            MysqlConnPool.password = rsb.getString("mysql.password");
             comboPooledDataSource.setJdbcUrl(url);
             comboPooledDataSource.setUser(username);
             comboPooledDataSource.setPassword(password);
